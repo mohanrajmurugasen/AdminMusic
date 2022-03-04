@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import FilledInput from "@mui/material/FilledInput";
 import "../../assets/css/oneRelease.css";
 import { useForm } from "react-hook-form";
-// import SendIcon from '@mui/icons-material/Send';
 import Stack from "@mui/material/Stack";
 import BrowserUpdatedIcon from "@mui/icons-material/BrowserUpdated";
 import authAxios from "../../interceptors/authAxios";
@@ -17,15 +16,30 @@ import { CModalHeader } from "@coreui/react";
 import { CModalTitle } from "@coreui/react";
 import DatePicker from "react-date-picker";
 import Autocomplete from "@mui/material/Autocomplete";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
 export default function OneRelease() {
+  const classes = useStyles();
   const [visible, setVisible] = useState(false);
   const [datas, setDatas] = useState();
   const { register, handleSubmit } = useForm();
-  const [value, onChange] = useState(new Date());
+  const [value, setValue] = useState(new Date());
+  const [value1, setValue1] = useState(new Date());
+  const [language, setlanguage] = useState(null);
 
   const [tittle, setTittle] = useState();
-  // const [author, setAuthor] = useState()
   const [image, setImage] = useState();
   const [song, setSong] = useState();
   const [video, setVideo] = useState();
@@ -33,24 +47,23 @@ export default function OneRelease() {
   const onSubmit = (data) => {
     setDatas(data);
     setVisible(false);
+    console.log(data, language);
   };
 
   const submiting = () => {
-    const formData = new FormData();
-    formData.append("tittle", tittle);
-    // formData.append('author', author);
-    formData.append("image", image);
-    formData.append("song", song);
-    formData.append("video", video);
-    authAxios
-      .post("upload", formData)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-    console.log(datas, tittle);
+    // const formData = new FormData();
+    // formData.append("tittle", tittle);
+    // formData.append("image", image);
+    // formData.append("song", song);
+    // formData.append("video", video);
+    // authAxios
+    //   .post("upload", formData)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err.message);
+    //   });
   };
 
   const top100Films = [
@@ -94,11 +107,6 @@ export default function OneRelease() {
           sx={{ mt: 0, mb: 1 }}
           onChange={(e) => setTittle(e.target.value)}
         />
-        {/* <p style={{marginBottom:"-10px"}}>Author Name</p>
-              <TextField
-                id="filled-basic" label="Enter author name" name="author" variant="filled" fullWidth margin="normal" required sx={{ mb: 2 }}
-                onChange={(e) => setAuthor(e.target.value)}
-              /> */}
         <Stack direction="row" spacing={2}>
           <Button
             variant="contained"
@@ -155,16 +163,16 @@ export default function OneRelease() {
       </Box>
       <CModal fullscreen visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
-          <CModalTitle style={{ margin: "auto", width: "100%" }}>
-            <h3
-              style={{
-                marginBottom: "10px",
-                textAlign: "center",
-                color: "rgb(0 0 48)",
-              }}
-            >
-              Release Information
-            </h3>
+          <CModalTitle
+            style={{
+              margin: "auto",
+              width: "100%",
+              marginBottom: "10px",
+              textAlign: "center",
+              color: "rgb(0 0 48)",
+            }}
+          >
+            Release Information
           </CModalTitle>
         </CModalHeader>
         <CModalBody>
@@ -183,7 +191,7 @@ export default function OneRelease() {
               <CCol>
                 <p style={{ marginBottom: "5px" }}>Hero</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("hero")}
                   id="outlined-basic"
                   variant="outlined"
                   size="small"
@@ -196,7 +204,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Heroine</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("heroine")}
                   id="outlined-basic"
                   variant="outlined"
                   size="small"
@@ -209,7 +217,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Singer Name</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("singerName")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -222,7 +230,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Movie Name</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("movieName")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -235,7 +243,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Album Name</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("albumName")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -248,7 +256,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Music Director</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("musicDirector")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -261,7 +269,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Movie Director</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("movieDirector")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -276,7 +284,7 @@ export default function OneRelease() {
               <CCol>
                 <p style={{ marginBottom: "5px" }}>Lyricist</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("lyricist")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -288,7 +296,7 @@ export default function OneRelease() {
                   sx={{ mt: 0 }}
                 />
                 <p style={{ marginBottom: "5px" }}>Feelings</p>
-                <Autocomplete
+                {/* <Autocomplete
                   disablePortal
                   id="combo-box-demo"
                   options={top100Films}
@@ -298,9 +306,9 @@ export default function OneRelease() {
                   )}
                   size="small"
                   sx={{ mb: 1 }}
-                />
+                /> */}
                 <p style={{ marginBottom: "5px" }}>Mood</p>
-                <Autocomplete
+                {/* <Autocomplete
                   disablePortal
                   id="combo-box-demo"
                   options={top100Films}
@@ -310,7 +318,7 @@ export default function OneRelease() {
                   )}
                   size="small"
                   sx={{ mb: 1 }}
-                />
+                /> */}
                 <p style={{ marginBottom: "5px" }}>Language</p>
                 <Autocomplete
                   disablePortal
@@ -324,16 +332,43 @@ export default function OneRelease() {
                   sx={{ mb: 1 }}
                 />
                 <p style={{ marginBottom: "5px" }}>Album Release Date</p>
-                <DatePicker onChange={onChange} value={value} />
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="date"
+                    label="Album Release Date"
+                    type="date"
+                    defaultValue={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
                 <p style={{ marginBottom: "5px", marginTop: " 0px" }}>
                   Movie Release Date
                 </p>
-                <DatePicker onChange={onChange} value={value} />
+                <form className={classes.container} noValidate>
+                  <TextField
+                    id="date"
+                    label="Movie Release Date"
+                    type="date"
+                    fullWidth
+                    defaultValue={value}
+                    onChange={(e) => setValue1(e.target.value)}
+                    value={value1}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </form>
               </CCol>
               <CCol>
                 <p style={{ marginBottom: "5px" }}>Banner</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("banner")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -346,7 +381,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Vendor Name</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("vendorName")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -359,7 +394,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Pline</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("pline")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -372,7 +407,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Cline</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("cline")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -385,7 +420,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Category</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("category")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
@@ -398,7 +433,7 @@ export default function OneRelease() {
                 />
                 <p style={{ marginBottom: "5px" }}>Genre</p>
                 <TextField
-                  {...register("tittle")}
+                  {...register("genre")}
                   id="outlined-basic"
                   label="Enter tittle content"
                   name="tittle"
