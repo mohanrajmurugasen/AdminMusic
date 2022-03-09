@@ -1,16 +1,13 @@
 import axios from "axios";
+import baseURL from "./baseurl";
 
-const token = localStorage.getItem('auth');
-const baseURL = 
-process.env.NODE_ENV === "production"
-? ''
-: 'http://localhost:4000/';
+const token = JSON.parse(JSON.stringify(localStorage.getItem("auth")));
 
 const authAxios = axios.create({
-    baseURL,
-    headers: {
-        authentication: token,
-    },
+  baseURL: baseURL,
+  headers: {
+    authentication: token,
+  },
 });
 
 export default authAxios;
